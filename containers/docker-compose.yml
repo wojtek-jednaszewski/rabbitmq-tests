@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.11
+    env_file:
+      - env
+    ports:
+      - '4369:4369'
+      - '5551:5551'
+      - '5552:5552'
+      - '5672:5672'
+      - '25672:25672'
+      - '15672:15672'
+    volumes:
+      - '/workspaces/rabbitmq-tests/containers/rabbitmq/rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins'
+      - '/workspaces/rabbitmq-tests/containers/rabbitmq/rabbitmq.conf:/etc/rabbitmq/conf.d/10-defaults.conf'
+    container_name: rabbitmq
+  keycloak:
+    image: jboss/keycloak
+    env_file:
+      - env
+    ports:
+    - '9990:9990'
+    - '8080:8080'
+    container_name: keycloak
+volumes:
+  rabbitmq:
+    driver: local
